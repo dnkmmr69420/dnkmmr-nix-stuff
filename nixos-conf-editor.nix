@@ -1,7 +1,5 @@
 { config, pkgs, lib, ... }:
 
-{
-
 let
   nixos-conf-editor = import (pkgs.fetchFromGitHub {
     owner = "vlinkz";
@@ -11,11 +9,9 @@ let
   }) {};
 in
 
-environment.systemPackages =
-with pkgs; [
-  nixos-conf-editor
-];
-
-};
-
+{
+  environment.systemPackages =
+    with pkgs; [
+      nixos-conf-editor
+    ];
 }
