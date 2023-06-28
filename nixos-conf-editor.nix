@@ -1,5 +1,7 @@
 { config, pkgs, lib, ... }:
 
+{
+
 let
   nixos-conf-editor = import (pkgs.fetchFromGitHub {
     owner = "vlinkz";
@@ -14,4 +16,6 @@ in
     with pkgs; [
       nixos-conf-editor
     ];
+};
+
 }
