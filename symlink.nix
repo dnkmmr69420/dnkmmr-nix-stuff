@@ -3,7 +3,9 @@
 let
   symlinkScript = pkgs.writeScript "create-symlinks" ''
     #!/usr/bin/env bash
-    ln -sf /path/to/target /path/to/destination
+    ln -sf /nix/var/nix/profiles/default /nix/nix-profile
+    ln -sf /run/current-system/sw /sw
+    ln -sf /run/current-system/sw/bin/bash /bin/bash
   '';
 in
 {
