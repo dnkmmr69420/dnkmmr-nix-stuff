@@ -5,3 +5,5 @@
     "L /nix/nix-profile - - - - /nix/var/nix/profiles/default"
     "L /bin/bash - - - - /run/current-system/sw/bin/bash "
   ];
+
+}
