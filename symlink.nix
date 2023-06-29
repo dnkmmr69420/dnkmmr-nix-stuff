@@ -1,25 +1,25 @@
 { pkgs, ... }:
 
 let
-  symlinkScript = pkgs.writeScript "create-symlinks" ''
-    #!/usr/bin/env bash
-    ln -sf /nix/var/nix/profiles/default /nix/nix-profile
-    ln -sf /run/current-system/sw /sw
-    ln -sf /run/current-system/sw/bin/bash /bin/bash
-  '';
-in
-{
-  environment.systemPackages = [ symlinkScript ];
-
-  systemd.services.create-symlinks = {
+  symlinkService = {
     description = "Create symlinks on boot";
     after = [ "local-fs.target" ];
-    wantedBy = [ "multi-user.target" ];
+    wants = [ "network-online.target" ];
     serviceConfig = {
-      Type = "simple";
-      ExecStart = "${pkgs.writeText "create-symlinks.sh" symlinkScript}";
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = ''
+        ln -sf /nix/var/nix/profiles/default /nix/nix-profile
+        ln -sf /run/current-system/sw /sw
+        ln -sf /run/current-system/sw/bin/bash /bin/bash
+      '';
       User = "root";
       Group = "root";
     };
+  };
+in
+{
+  systemd.services = {
+    "create-symlinks" = symlinkService;
   };
 }
